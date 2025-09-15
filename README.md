@@ -84,14 +84,14 @@ Ce token est utilisé pour accéder aux routes protégées des contacts (/api/co
 5. API Contacts (CRUD)
 
 Routes
-Méthode	                Endpoint	            Description	            Auth
-POST	           /api/auth/register	    Crée un utilisateur	         ❌
-POST	           /api/auth/login	    Connexion et récupération JWT	 ❌
-GET	                 /api/contacts	      Récupère tous les contacts	 ✅
-POST	             /api/contacts	       Crée un nouveau contact	     ✅
-PATCH	           /api/contacts/:id	    Met à jour un contact	     ✅
-DELETE	           /api/contacts/:id	     Supprime un contact	     ✅
-
+Méthode	     │         Endpoint	        │            Descriptio             │  Auth
+POST	     │    /api/auth/register    │       Crée un utilisateur	        │   ❌
+POST	     │     /api/auth/login	    │  Connexion et récupération JWT.   │   ❌
+GET	         │      /api/contacts	    │    Récupère tous les contacts.    │   ✅
+POST	     │      /api/contacts	    │      Crée un nouveau contact	    │   ✅
+PATCH	     │    /api/contacts/:id	    │       Met à jour un contact	    │   ✅
+DELETE	     │    /api/contacts/:id	    │        Supprime un contact	    │   ✅
+ 
 
 6. Swagger
 La documentation API est disponible via Swagger à :
