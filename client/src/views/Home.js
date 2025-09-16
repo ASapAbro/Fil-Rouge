@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 
 function Home() {
   return (
-    <div>
+    <div className="container">
       <header>
         <h1>MyContacts</h1>
         <nav>
-          <ul style={{ listStyle: "none", display: "flex", gap: "15px" }}>
+          <ul className="navbar">
             <li><Link to="/">Accueil</Link></li>
             <li><Link to="/login">Connexion</Link></li>
             <li><Link to="/register">Inscription</Link></li>
@@ -15,7 +15,7 @@ function Home() {
         </nav>
       </header>
 
-      <div>
+      <div className="welcome">
         <h2>Bienvenue sur MyContacts</h2>
         <p>Gérez vos contacts facilement et en toute sécurité.</p>
       </div>

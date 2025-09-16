@@ -1,32 +1,31 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // 👈 useNavigate importé
+import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
-  const navigate = useNavigate(); // 👈 hook pour redirection
+  const navigate = useNavigate();
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await fetch("http://localhost:5001/api/auth/login", {
+      const res = await fetch("http://localhost:5001/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
 
-      const data = await response.json();
+      const data = await res.json();
 
-      if (response.ok) {
+      if (res.ok) {
         toast.success("Connexion réussie !");
-        localStorage.setItem("token", data.token); // stocke le token
+        localStorage.setItem("token", data.token);
         setForm({ email: "", password: "" });
-        navigate("/book"); // 👈 redirection vers le carn
+        navigate("/book");
       } else {
         toast.error(data.message || "Erreur de connexion");
       }
@@ -36,45 +35,37 @@ function Login() {
   };
 
   return (
-    <div>
-      <header>
-        <h1>MyContacts</h1>
-        <nav>
-          <ul style={{ listStyle: "none", display: "flex", gap: "15px" }}>
-            <li><Link to="/">Accueil</Link></li>
-            <li><Link to="/login">Connexion</Link></li>
-            <li><Link to="/register">Inscription</Link></li>
-          </ul>
-        </nav>
-      </header>
-
+    <div className="container">
+      <h2>Connexion</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          name="email"
-          type="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
+        <div className="form-group">
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <input
+            name="password"
+            type="password"
+            placeholder="Mot de passe"
+            value={form.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <input
-          name="password"
-          type="password"
-          placeholder="Mot de passe"
-          value={form.password}
-          onChange={handleChange}
-          required
-        />
-
-        <button type="submit">Connexion</button>
-
-        <span>
+        <button type="submit" className="btn">Connexion</button>
+        <p>
           Pas de compte ? <Link to="/register">Inscription</Link>
-        </span>
+        </p>
       </form>
 
-      <ToastContainer />
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }
