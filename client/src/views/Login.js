@@ -6,19 +6,18 @@ import "react-toastify/dist/ReactToastify.css";
 function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const navigate = useNavigate();
+  const API_URL = process.env.REACT_APP_API_URL;
 
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5001/api/auth/login", {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-
       const data = await res.json();
 
       if (res.ok) {
@@ -58,13 +57,9 @@ function Login() {
             required
           />
         </div>
-
         <button type="submit" className="btn">Connexion</button>
-        <p>
-          Pas de compte ? <Link to="/register">Inscription</Link>
-        </p>
+        <p>Pas de compte ? <Link to="/register">Inscription</Link></p>
       </form>
-
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );

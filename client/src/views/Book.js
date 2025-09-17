@@ -8,10 +8,20 @@ function Book() {
 
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const API_URL = process.env.REACT_APP_API_URL;
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    } else {
+      fetchContacts();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   const fetchContacts = async () => {
     try {
-      const res = await fetch("http://localhost:5001/api/contacts", {
+      const res = await fetch(`${API_URL}/api/contacts`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -21,18 +31,10 @@ function Book() {
     }
   };
 
-  useEffect(() => {
-    if (!token) {
-      navigate("/login");
-    } else {
-      fetchContacts();
-    }
-  }, [token, navigate]);
-
   const handleSave = async () => {
     try {
       if (editId) {
-        const res = await fetch(`http://localhost:5001/api/contacts/${editId}`, {
+        const res = await fetch(`${API_URL}/api/contacts/${editId}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
@@ -40,14 +42,13 @@ function Book() {
           },
           body: JSON.stringify(form),
         });
-
         if (res.ok) {
           setEditId(null);
           setForm({ firstName: "", lastName: "", phone: "" });
           fetchContacts();
         }
       } else {
-        const res = await fetch("http://localhost:5001/api/contacts", {
+        const res = await fetch(`${API_URL}/api/contacts`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -55,7 +56,6 @@ function Book() {
           },
           body: JSON.stringify(form),
         });
-
         if (res.ok) {
           setForm({ firstName: "", lastName: "", phone: "" });
           fetchContacts();
@@ -68,7 +68,7 @@ function Book() {
 
   const handleDelete = async (_id) => {
     try {
-      await fetch(`http://localhost:5001/api/contacts/${_id}`, {
+      await fetch(`${API_URL}/api/contacts/${_id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

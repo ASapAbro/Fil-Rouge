@@ -6,15 +6,14 @@ import "react-toastify/dist/ReactToastify.css";
 function Register() {
   const [form, setForm] = useState({ email: "", password: "" });
   const navigate = useNavigate();
+  const API_URL = process.env.REACT_APP_API_URL;
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5001/api/auth/register", {
+      const res = await fetch(`${API_URL}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -47,7 +46,6 @@ function Register() {
             required
           />
         </div>
-
         <div className="form-group">
           <label>Mot de passe</label>
           <input
@@ -58,13 +56,9 @@ function Register() {
             required
           />
         </div>
-
         <button type="submit" className="btn">Inscription</button>
-        <p>
-          Déjà un compte ? <Link to="/login">Connexion</Link>
-        </p>
+        <p>Déjà un compte ? <Link to="/login">Connexion</Link></p>
       </form>
-
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );

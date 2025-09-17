@@ -55,3 +55,10 @@ app.use('/api/contacts', require('./routes/contacts'));
 // --------------------
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+app.use(cors({
+  origin: "*", // pour tester toutes les origines. Ensuite tu pourras limiter à ton Netlify
+  methods: ["GET","POST","PATCH","DELETE"],
+  allowedHeaders: ["Content-Type","Authorization"]
+}));
