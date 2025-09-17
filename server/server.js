@@ -5,9 +5,19 @@ const cors = require('cors');
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const authRoutes = require('./routes/auth');
+const contactRoutes = require('./routes/contacts');
+
 const app = express();
+
+// --------------------
+// Middleware
+// --------------------
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: "*", // Autorise toutes les origines. À restreindre en production.
+  methods: ["GET","POST","PATCH","DELETE"],
+  allowedHeaders: ["Content-Type","Authorization"]
+}));
 
 // --------------------
 // Connexion MongoDB
@@ -27,7 +37,12 @@ const swaggerOptions = {
       version: "1.0.0",
       description: "API pour gérer un carnet de contacts personnel"
     },
-    servers: [{ url: "http://localhost:" + process.env.PORT }],
+    servers: [
+      { url: process.env.NODE_ENV === "production" 
+        ? "https://monservercarnetdecontact.onrender.com" 
+        : "http://localhost:" + (process.env.PORT || 5001)
+      }
+    ],
     components: {
       securitySchemes: {
         bearerAuth: {
@@ -48,17 +63,10 @@ app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 // Routes
 // --------------------
 app.use('/api/auth', authRoutes);
-app.use('/api/contacts', require('./routes/contacts'));
+app.use('/api/contacts', contactRoutes);
 
 // --------------------
 // Lancement serveur
 // --------------------
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
-app.use(cors({
-  origin: "*", // pour tester toutes les origines. Ensuite tu pourras limiter à ton Netlify
-  methods: ["GET","POST","PATCH","DELETE"],
-  allowedHeaders: ["Content-Type","Authorization"]
-}));
