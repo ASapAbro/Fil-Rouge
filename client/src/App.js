@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Home from './views/Home';
@@ -16,14 +15,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         
         {/* Route protégée pour le Book / Dashboard */}
-        <Route 
-          path="/book" 
-          element={
-            <ProtectedRoute>
-              <Book />
-            </ProtectedRoute>
-          } 
-        />
+        <Route path="/book" element={<ProtectedRoute><Book /> </ProtectedRoute>} />
 
         {/* Redirection vers la page d'accueil si route non trouvée */}
         <Route path="*" element={<Navigate to="/" />} />

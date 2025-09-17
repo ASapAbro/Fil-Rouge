@@ -138,7 +138,45 @@ carnet-contacts/
 │  └─ package.json
 └─ README.md
 
-9. Notes
-Ne jamais pousser .env sur GitHub
 
 
+// Documentation nécessaire //
+
+Express (framework backend)
+🔗 Express docs (https://expressjs.com/fr/)
+
+→ Gestion des routes, middlewares, JSON.
+
+Mongoose (ODM MongoDB)
+🔗 Mongoose docs (https://mongoosejs.com/docs/)
+
+→ Création de modèles (User, Contact), schémas, relations (ref).
+
+bcrypt (hachage mot de passe)
+🔗 bcryptjs npm (https://www.npmjs.com/package/bcryptjs)
+
+→ Sécuriser les mots de passe avant stockage.
+
+jsonwebtoken (JWT)
+🔗 jsonwebtoken npm (https://www.npmjs.com/package/jsonwebtoken)
+
+→ Création et vérification des tokens pour l’auth.
+
+CORS (sécurité API)
+🔗 cors npm (https://www.npmjs.com/package/cors)
+
+→ Autoriser le frontend à communiquer avec le backend.
+
+Swagger (doc API)
+🔗 Swagger OpenAPI 3 (https://www.npmjs.com/package/cors)
+
+🔗 swagger-jsdoc (https://www.npmjs.com/package/swagger-jsdoc)
+
+🔗 swagger-ui-express (https://www.npmjs.com/package/swagger-ui-express)
+
+→ Décrire et tester l'API.
+
+Dotenv (variables d’environnement)
+🔗 dotenv npm (https://www.npmjs.com/package/dotenv)
+
+→ Stocker MONGO_URI et JWT_SECRET dans un .env.
