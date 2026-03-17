@@ -38,8 +38,8 @@ const swaggerOptions = {
       description: "API pour gérer un carnet de contacts personnel"
     },
     servers: [
-      { url: process.env.NODE_ENV === "production" 
-        ? "https://monservercarnetdecontact.onrender.com" 
+      { url: process.env.VERCEL_URL 
+        ? `https://${process.env.VERCEL_URL}` 
         : "http://localhost:" + (process.env.PORT || 5001)
       }
     ],
@@ -62,6 +62,18 @@ app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 // --------------------
 // Routes
 // --------------------
+// Route de base pour vérifier que l'API fonctionne
+app.get('/', (req, res) => {
+  res.json({ 
+    message: "MyContacts API is running 🚀", 
+    endpoints: {
+      auth: "/api/auth",
+      contacts: "/api/contacts",
+      docs: "/api/docs"
+    }
+  });
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/contacts', contactRoutes);
 
