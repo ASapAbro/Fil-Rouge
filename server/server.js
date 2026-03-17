@@ -22,9 +22,13 @@ app.use(cors({
 // --------------------
 // Connexion MongoDB
 // --------------------
+console.log('Tentative de connexion à MongoDB...');
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB connecté"))
-  .catch(err => console.log(err));
+  .then(() => console.log("✅ MongoDB connecté avec succès"))
+  .catch(err => {
+    console.error("❌ Erreur de connexion MongoDB:", err);
+    console.error("MONGO_URI:", process.env.MONGO_URI ? "Défini" : "Non défini");
+  });
 
 // --------------------
 // Swagger avec sécurité JWT

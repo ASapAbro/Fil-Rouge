@@ -27,14 +27,20 @@ const requireAuth = require('../middleware/requireAuth');
 router.post('/register', async (req, res) => {
     const { email, password } = req.body;
     try {
+        console.log('Tentative d\'inscription pour:', email);
         const exists = await User.findOne({ email });
-        if (exists) return res.status(400).json({ msg: 'Email déjà utilisé' });
+        if (exists) {
+            console.log('Email déjà utilisé:', email);
+            return res.status(400).json({ msg: 'Email déjà utilisé' });
+        }
 
         const user = new User({ email, password });
         await user.save();
+        console.log('Utilisateur créé avec succès:', email);
         res.status(201).json({ msg: 'Utilisateur créé' });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Erreur lors de l\'inscription:', err);
+        res.status(500).json({ error: err.message, details: 'Erreur serveur lors de l\'inscription' });
     }
 });
 
@@ -61,16 +67,25 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
+        console.log('Tentative de connexion pour:', email);
         const user = await User.findOne({ email });
-        if (!user) return res.status(400).json({ msg: 'Utilisateur non trouvé' });
+        if (!user) {
+            console.log('Utilisateur non trouvé:', email);
+            return res.status(400).json({ msg: 'Utilisateur non trouvé' });
+        }
 
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ msg: 'Mot de passe incorrect' });
+        if (!isMatch) {
+            console.log('Mot de passe incorrect pour:', email);
+            return res.status(400).json({ msg: 'Mot de passe incorrect' });
+        }
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        console.log('Connexion réussie pour:', email);
         res.json({ token });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error('Erreur lors de la connexion:', err);
+        res.status(500).json({ error: err.message, details: 'Erreur serveur lors de la connexion' });
     }
 });
 
